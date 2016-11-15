@@ -1,3 +1,9 @@
 # 520-Class-Project
 
-Rohan Kapoor
+#Jake Magier
+#Dylan McFadden
+#Ethan Smith
+#Jairo Lopez
+#Pranjal Singhal
+#Rohan Kapoor
+
