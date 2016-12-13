@@ -30,8 +30,10 @@ import soot.Unit;
 import soot.ValueBox;
 import soot.jimple.BinopExpr;
 import soot.jimple.ConditionExpr;
+import soot.jimple.toolkits.annotation.logic.Loop;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.ExceptionalBlockGraph;
+import soot.toolkits.graph.LoopNestTree;
 import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.FlowSet;
@@ -44,7 +46,11 @@ public class MyMain {
 				new Transform("jtp.myTransform", new BodyTransformer() {
 
 					protected void internalTransform(Body body, String phase, Map options) {
-						new MyAnalysis(new ExceptionalUnitGraph(body));
+						MyAnalysis analysis = new MyAnalysis(new ExceptionalUnitGraph(body));
+						LoopNestTree loopNest = new LoopNestTree(body);
+						for(Loop loop: loopNest){
+							loop.getHead().getArrayRefBox().getValue().equals()
+						}
 						// use G.v().out instead of System.out so that Soot can
 						// redirect this output to the Eclipse console
 						G.v().out.println(body.getMethod());
