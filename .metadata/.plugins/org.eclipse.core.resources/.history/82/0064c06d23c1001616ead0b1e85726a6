@@ -68,15 +68,14 @@ public class MyMain {
 										G.v().out.println("Condition: " + unit);
 										LoopNestTree loopNest = new LoopNestTree(body);
 										for(Loop loop: loopNest){
-											if(loop.getLoopStatements().contains(unit)){
-												for(Stmt stm : loop.getLoopStatements()) {
-													FlowSet fsb2 = (FlowSet) analysis.getFlowBefore(stm);
-													FlowSet fsa2 = (FlowSet) analysis.getFlowAfter(stm);
-													FlowSet fsc2 = (FlowSet) analysis.getFlowAfter(stm);
-													fsa2.difference(fsb2, fsc2);
-													if(!fsc2.isEmpty()){
-														G.v().out.println(stm.getUseAndDefBoxes());
-													}
+											for(Stmt stm : loop.getLoopStatements()) {
+												FlowSet fsb2 = (FlowSet) analysis.getFlowBefore(stm);
+												FlowSet fsa2 = (FlowSet) analysis.getFlowAfter(stm);
+												FlowSet fsc2 = (FlowSet) analysis.getFlowAfter(stm);
+												fsa2.difference(fsb2, fsc2);
+												if(!fsc2.isEmpty()){
+													G.v().out.println(fsa2);
+													G.v().out.println(fsb2);
 												}
 											}
 										}

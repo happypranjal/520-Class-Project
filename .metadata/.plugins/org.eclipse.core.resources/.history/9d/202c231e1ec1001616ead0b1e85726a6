@@ -1,6 +1,6 @@
 
 public class TestClass2 {
-	void foo (int x, int y){
+	void floo (int x, int y){
 		double z;
 		int	p;
 		if (y < 0){

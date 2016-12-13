@@ -20,7 +20,7 @@ import soot.toolkits.graph.LoopNestTree;
 
 public class StaticAnalysis {
     public static void main(String[] args) throws Exception {
-        SootClass sootClass = Scene.v().loadClassAndSupport("TestClass2");
+        SootClass sootClass = Scene.v().loadClassAndSupport("TestLoop");
         sootClass.setApplicationClass();
 
         Body body = null;
@@ -83,7 +83,7 @@ public class StaticAnalysis {
         				if(conditionBox instanceof ImmediateBox){
         					//Ignore constants
         					if(!isNumeric(((ImmediateBox) conditionBox).getValue().toString())){
-        						//If the variables start with $ according to Jimple api they are global variables else they are local 
+        						//If the variables start with $ according to Jimple api they are global variables
         						if(((ImmediateBox) conditionBox).getValue().toString().charAt(0) == '$'){
             						System.out.println("The variable " + ((ImmediateBox) conditionBox).getValue() + " is a Global Variable");
                             		System.out.println();

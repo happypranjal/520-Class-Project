@@ -75,7 +75,7 @@ public class MyMain {
 													FlowSet fsc2 = (FlowSet) analysis.getFlowAfter(stm);
 													fsa2.difference(fsb2, fsc2);
 													if(!fsc2.isEmpty()){
-														G.v().out.println(stm.getUseAndDefBoxes());
+														G.v().out.println(stm.getDefBoxes());
 													}
 												}
 											}

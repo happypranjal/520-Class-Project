@@ -33,7 +33,6 @@ import soot.jimple.ConditionExpr;
 import soot.jimple.EqExpr;
 import soot.jimple.Expr;
 import soot.jimple.Stmt;
-import soot.jimple.internal.ConditionExprBox;
 import soot.jimple.toolkits.annotation.logic.Loop;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.BriefUnitGraph;
@@ -52,40 +51,36 @@ public class MyMain {
 
 					protected void internalTransform(Body body, String phase, Map options) {
 						MyAnalysis analysis = new MyAnalysis(new BriefUnitGraph(body));
-						
-						// use G.v().out instead of System.out so that Soot can
-						// redirect this output to the Eclipse console
-						G.v().out.println(body.getMethod());
-						
-						for(Unit unit : body.getUnits()){
-							FlowSet fsb = (FlowSet) analysis.getFlowBefore(unit);
-							FlowSet fsa = (FlowSet) analysis.getFlowAfter(unit);
-							FlowSet fsc = (FlowSet) analysis.getFlowAfter(unit);
-							fsa.difference(fsb, fsc);
-							if(!fsc.isEmpty()){
-								for(Object statementBox : unit.getUseAndDefBoxes()){
-									if(statementBox instanceof ConditionExprBox){
-										G.v().out.println("Condition: " + unit);
-										LoopNestTree loopNest = new LoopNestTree(body);
-										for(Loop loop: loopNest){
-											if(loop.getLoopStatements().contains(unit)){
-												for(Stmt stm : loop.getLoopStatements()) {
-													FlowSet fsb2 = (FlowSet) analysis.getFlowBefore(stm);
-													FlowSet fsa2 = (FlowSet) analysis.getFlowAfter(stm);
-													FlowSet fsc2 = (FlowSet) analysis.getFlowAfter(stm);
-													fsa2.difference(fsb2, fsc2);
-													if(!fsc2.isEmpty()){
-														G.v().out.println(stm.getUseAndDefBoxes());
-													}
-												}
-											}
-										}
+						LoopNestTree loopNest = new LoopNestTree(body);
+						for(Loop loop: loopNest){
+							Stmt st = loop.getHead();
+							for(Stmt stm : loop.getLoopStatements()) {
+								FlowSet fsb = (FlowSet) analysis.getFlowBefore(stm);
+								FlowSet fsa = (FlowSet) analysis.getFlowAfter(stm);
+								FlowSet fsc = (FlowSet) analysis.getFlowAfter(stm);
+								fsa.difference(fsb, fsc);
+								if(stm instanceof ConditionExpr && st.toString().equals("nop")) {
+									st = stm;
+								}
+								//G.v().out.println(stm.toString());
+								if(!fsc.isEmpty() && fsb.size() > fsa.size()) {
+									G.v().out.println(stm.toString());
+									G.v().out.println(st);
+									Iterator it = stm.getUseAndDefBoxes().iterator();
+									while(it.hasNext()) {
+										//G.v().out.println(it.next());
 									}
+									
+			
+									
 								}
 							}
 						}
 						
-						
+						// use G.v().out instead of System.out so that Soot can
+						// redirect this output to the Eclipse console
+						G.v().out.println(body.getMethod());
+						//G.v().out.println("Hello");
 					}
 					
 				}));
