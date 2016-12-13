@@ -1,11 +1,6 @@
 # 520-Class-Project
 
-Jake Magier
-Dylan McFadden
-Ethan Smith
-Jairo Lopez
-Pranjal Singhal
-Rohan Kapoor
+Jake Magier, Dylan McFadden, Ethan Smith, Jairo Lopez, Pranjal Singhal, Rohan Kapoor
 
 # Static analysis
 
