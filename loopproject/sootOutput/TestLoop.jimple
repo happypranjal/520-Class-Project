@@ -1,0 +1,60 @@
+public class TestLoop extends java.lang.Object
+{
+
+    public void foo()
+    {
+        TestLoop this;
+        int j, i, temp$1, temp$2, temp$3, temp$4;
+        java.io.PrintStream temp$0;
+
+        this := @this: TestLoop;
+        j = 0;
+
+     label0:
+        nop;
+        if j < 2 goto label1;
+
+        goto label5;
+
+     label1:
+        nop;
+        i = 0;
+
+     label2:
+        nop;
+        if i < 5 goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$0.<java.io.PrintStream: void println(int)>(i);
+        nop;
+        temp$1 = i;
+        temp$2 = temp$1 + 1;
+        i = temp$2;
+        goto label2;
+
+     label4:
+        nop;
+        nop;
+        temp$3 = j;
+        temp$4 = temp$3 + 1;
+        j = temp$4;
+        goto label0;
+
+     label5:
+        nop;
+        return;
+    }
+
+    public void <init>()
+    {
+        TestLoop this;
+
+        this := @this: TestLoop;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

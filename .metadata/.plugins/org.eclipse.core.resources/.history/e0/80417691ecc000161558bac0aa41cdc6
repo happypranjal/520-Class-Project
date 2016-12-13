@@ -1,0 +1,9 @@
+public class TestLoop {
+    public void foo(int haha) {
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < hah; i++) {
+                System.out.println(i);
+            }
+        }
+    }
+}

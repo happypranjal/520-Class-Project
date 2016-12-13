@@ -1,0 +1,96 @@
+public class TestClass extends java.lang.Object
+{
+    private int a;
+    private int b;
+
+    public int geta()
+    {
+        TestClass this;
+        int temp$0;
+
+        this := @this: TestClass;
+        temp$0 = this.<TestClass: int a>;
+        return temp$0;
+    }
+
+    public void seta(int)
+    {
+        TestClass this;
+        int a;
+
+        this := @this: TestClass;
+        a := @parameter0: int;
+        this.<TestClass: int a> = a;
+        return;
+    }
+
+    public int getb()
+    {
+        TestClass this;
+        int temp$0;
+
+        this := @this: TestClass;
+        temp$0 = this.<TestClass: int b>;
+        return temp$0;
+    }
+
+    public void setb(int)
+    {
+        TestClass this;
+        int b;
+
+        this := @this: TestClass;
+        b := @parameter0: int;
+        this.<TestClass: int b> = b;
+        return;
+    }
+
+    public int calculateab()
+    {
+        TestClass this;
+        int temp$0, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
+
+        this := @this: TestClass;
+        temp$0 = this.<TestClass: int a>;
+        temp$1 = this.<TestClass: int b>;
+        if temp$0 > temp$1 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = this.<TestClass: int a>;
+        temp$3 = this.<TestClass: int b>;
+        temp$4 = temp$2 * temp$3;
+        return temp$4;
+
+     label1:
+        nop;
+        temp$5 = this.<TestClass: int a>;
+        temp$6 = this.<TestClass: int b>;
+        temp$7 = temp$5 - temp$6;
+        return temp$7;
+    }
+
+    public static void main(java.lang.String[])
+    {
+        java.lang.String[] args;
+
+        args := @parameter0: java.lang.String[];
+        return;
+    }
+
+    public void <init>()
+    {
+        TestClass this;
+        int temp$0, temp$1;
+
+        this := @this: TestClass;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = 5;
+        this.<TestClass: int a> = temp$0;
+        temp$1 = 10;
+        this.<TestClass: int b> = temp$1;
+        return;
+    }
+}
