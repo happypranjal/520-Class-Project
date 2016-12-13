@@ -17,14 +17,19 @@
  * Boston, MA 02111-1307, USA.
  */
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
+import soot.Local;
 import soot.PackManager;
 import soot.Transform;
 import soot.Unit;
+import soot.ValueBox;
+import soot.jimple.BinopExpr;
+import soot.jimple.ConditionExpr;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.ExceptionalBlockGraph;
 import soot.toolkits.scalar.ArraySparseSet;
@@ -66,8 +71,51 @@ public class MyMain {
 			FlowSet
             in = (FlowSet) inValue,
             out = (FlowSet) outValue;
-			in.union(unitToGenerateSet.get(unit), out);			
+			Unit u = (Unit) unit; 
+			kill(in, u, out);
+			gen(out, u);
 		}
+		
+		protected void kill(FlowSet inSet, Unit u, FlowSet outSet) {
+			FlowSet kills = (FlowSet)emptySet.clone();
+			Iterator defIt = u.getDefBoxes().iterator();
+			while (defIt.hasNext()) {
+				ValueBox defBox = (ValueBox)defIt.next();
+
+				if (defBox.getValue() instanceof Local) {
+					Iterator inIt = inSet.iterator();
+					while (inIt.hasNext()) {
+						ConditionExpr e = (ConditionExpr)inIt.next();
+						Iterator eIt = e.getUseBoxes().iterator();
+						while (eIt.hasNext()) {
+							ValueBox useBox = (ValueBox)eIt.next();
+							if (useBox.getValue() instanceof Local &&
+									useBox.getValue().equivTo(defBox.getValue()))
+								kills.add(e);
+						}
+					}
+				}
+			}
+			inSet.difference(kills, outSet);
+		}
+		
+		/**
+		 * Performs gens by iterating over the units use-boxes.
+		 * If the value of a use-box is a binopExp then we add
+		 * it to the outSet.
+		 * @param outSet the set flowing out of the unit
+		 * @param u the unit being flown through
+		 */
+		protected void gen(FlowSet outSet, Unit u) {
+			Iterator useIt = u.getUseBoxes().iterator();
+			while (useIt.hasNext()) {
+				ValueBox useBox = (ValueBox)useIt.next();
+				
+				if (useBox.getValue() instanceof ConditionExpr)
+					outSet.add(useBox.getValue());
+			}
+		}
+	
 
 		@Override
 		protected Object newInitialFlow() {
