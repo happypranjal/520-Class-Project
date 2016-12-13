@@ -28,6 +28,7 @@ import soot.Unit;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.ExceptionalBlockGraph;
 import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
@@ -38,7 +39,7 @@ public class MyMain {
 				new Transform("jtp.myTransform", new BodyTransformer() {
 
 					protected void internalTransform(Body body, String phase, Map options) {
-						new MyAnalysis(new ExceptionalBlockGraph(body));
+						new MyAnalysis(new ExceptionalUnitGraph(body));
 						// use G.v().out instead of System.out so that Soot can
 						// redirect this output to the Eclipse console
 						G.v().out.println(body.getMethod());
@@ -54,8 +55,8 @@ public class MyMain {
 		FlowSet emptySet = new ArraySparseSet();
 	    Map<Unit, FlowSet> unitToGenerateSet;
 	    
-		public MyAnalysis(ExceptionalBlockGraph exceptionalBlockGraph) {
-			super(exceptionalBlockGraph);
+		public MyAnalysis(ExceptionalUnitGraph exceptionalUnitGraph) {
+			super(exceptionalUnitGraph);
 	        unitToGenerateSet = new HashMap<Unit, FlowSet>();
 			doAnalysis();
 		}
