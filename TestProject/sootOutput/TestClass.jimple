@@ -1,0 +1,49 @@
+public class TestClass extends java.lang.Object
+{
+
+    public static void main(java.lang.String[])
+    {
+        java.lang.String[] args;
+        int i, temp$3;
+        java.io.PrintStream temp$0, temp$1;
+
+        args := @parameter0: java.lang.String[];
+        i = 1;
+
+     label0:
+        if i < 10 goto label1;
+
+        goto label5;
+
+     label1:
+        if i == 5 goto label2;
+
+        goto label3;
+
+     label2:
+        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$0.<java.io.PrintStream: void println(java.lang.String)>("50");
+        goto label4;
+
+     label3:
+        temp$1 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$1.<java.io.PrintStream: void println(java.lang.String)>("Naada");
+
+     label4:
+        temp$3 = i + 1;
+        i = temp$3;
+        goto label0;
+
+     label5:
+        return;
+    }
+
+    public void <init>()
+    {
+        TestClass this;
+
+        this := @this: TestClass;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

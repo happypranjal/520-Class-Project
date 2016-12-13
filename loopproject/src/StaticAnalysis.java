@@ -42,7 +42,7 @@ public class StaticAnalysis {
         System.out.println("**** Condition Statements Found ****");
         ExceptionalUnitGraph unitGraph = new ExceptionalUnitGraph(body);
         //Get All the units
-        for (Unit unit : body.getUnits()) {
+        for (Unit unit : unitGraph) {
         	//Check if the unit has a condition. Its a condition if it branches 
         	if(unit.branches() && !unit.getUseAndDefBoxes().isEmpty()){
         		boolean isLoop = false;

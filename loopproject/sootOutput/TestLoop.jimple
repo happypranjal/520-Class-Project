@@ -3,61 +3,88 @@ public class TestLoop extends java.lang.Object
 
     public void foo()
     {
-        TestLoop r0;
-        byte b0;
-        int i1, i2, i3, i4, i5, i6;
-        java.io.PrintStream r1, r2;
+        TestLoop this;
+        int k, j, i, temp$2, temp$3, temp$4, temp$5, temp$7, temp$8;
+        java.io.PrintStream temp$0, temp$1, temp$6;
 
-        r0 := @this: TestLoop;
-        b0 = 1;
-        if b0 < 4 goto label0;
+        this := @this: TestLoop;
+        k = 10;
+        if k < 4 goto label0;
 
         goto label1;
 
      label0:
-        r1 = <java.lang.System: java.io.PrintStream out>;
-        virtualinvoke r1.<java.io.PrintStream: void println(int)>(b0);
+        nop;
+        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$0.<java.io.PrintStream: void println(int)>(k);
 
      label1:
-        i1 = 0;
+        nop;
+        j = 0;
 
      label2:
-        if i1 < 2 goto label3;
+        nop;
+        if j < 2 goto label3;
 
         goto label7;
 
      label3:
-        i2 = 0;
+        nop;
+        i = 0;
 
      label4:
-        if i2 < 5 goto label5;
+        nop;
+        if i < 5 goto label5;
 
         goto label6;
 
      label5:
-        r2 = <java.lang.System: java.io.PrintStream out>;
-        virtualinvoke r2.<java.io.PrintStream: void println(int)>(i2);
-        i3 = i2;
-        i4 = i3 + 1;
-        i2 = i4;
+        nop;
+        temp$1 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$1.<java.io.PrintStream: void println(int)>(i);
+        nop;
+        temp$2 = i;
+        temp$3 = temp$2 + 1;
+        i = temp$3;
         goto label4;
 
      label6:
-        i5 = i1;
-        i6 = i5 + 1;
-        i1 = i6;
+        nop;
+        nop;
+        temp$4 = j;
+        temp$5 = temp$4 + 1;
+        j = temp$5;
         goto label2;
 
      label7:
+        nop;
+
+     label8:
+        nop;
+        if k > 1 goto label9;
+
+        goto label10;
+
+     label9:
+        nop;
+        temp$6 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$6.<java.io.PrintStream: void println(java.lang.String)>("Whatttt");
+        temp$7 = k;
+        temp$8 = temp$7 + -1;
+        k = temp$8;
+        goto label8;
+
+     label10:
+        nop;
         return;
     }
 
     public void <init>()
     {
-        TestLoop r0;
+        TestLoop this;
 
-        r0 := @this: TestLoop;
-        specialinvoke r0.<java.lang.Object: void <init>()>();
+        this := @this: TestLoop;
+        specialinvoke this.<java.lang.Object: void <init>()>();
         return;
     }
 }
