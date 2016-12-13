@@ -16,6 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+import java.util.HashMap;
 import java.util.Map;
 
 import soot.Body;
@@ -23,7 +24,11 @@ import soot.BodyTransformer;
 import soot.G;
 import soot.PackManager;
 import soot.Transform;
-import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.Unit;
+import soot.toolkits.graph.Block;
+import soot.toolkits.graph.ExceptionalBlockGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 public class MyMain {
@@ -33,7 +38,7 @@ public class MyMain {
 				new Transform("jtp.myTransform", new BodyTransformer() {
 
 					protected void internalTransform(Body body, String phase, Map options) {
-						new MyAnalysis(new ExceptionalUnitGraph(body));
+						new MyAnalysis(new ExceptionalBlockGraph(body));
 						// use G.v().out instead of System.out so that Soot can
 						// redirect this output to the Eclipse console
 						G.v().out.println(body.getMethod());
@@ -45,41 +50,51 @@ public class MyMain {
 	}
 
 	public static class MyAnalysis extends ForwardFlowAnalysis  {
-
-		public MyAnalysis(ExceptionalUnitGraph exceptionalUnitGraph) {
-			super(exceptionalUnitGraph);
-			
+		
+		FlowSet emptySet = new ArraySparseSet();
+	    Map<Unit, FlowSet> unitToGenerateSet;
+	    
+		public MyAnalysis(ExceptionalBlockGraph exceptionalBlockGraph) {
+			super(exceptionalBlockGraph);
+	        unitToGenerateSet = new HashMap<Unit, FlowSet>();
 			doAnalysis();
 		}
 
 		@Override
-		protected void flowThrough(Object in, Object d, Object out) {
-			// TODO Auto-generated method stub
-			
+		protected void flowThrough(Object inValue, Object unit, Object outValue) {
+			FlowSet
+            in = (FlowSet) inValue,
+            out = (FlowSet) outValue;
+			in.union(unitToGenerateSet.get(unit), out);			
 		}
 
 		@Override
 		protected Object newInitialFlow() {
-			// TODO Auto-generated method stub
-			return null;
+	        return emptySet.clone();
 		}
 
 		@Override
 		protected Object entryInitialFlow() {
-			// TODO Auto-generated method stub
-			return null;
+	        return emptySet.clone();
 		}
 
 		@Override
 		protected void merge(Object in1, Object in2, Object out) {
-			// TODO Auto-generated method stub
-			
+			FlowSet
+            inSet1 = (FlowSet) in1,
+            inSet2 = (FlowSet) in2,
+            outSet = (FlowSet) out;
+
+			inSet1.intersection(inSet2, outSet);			
 		}
 
 		@Override
 		protected void copy(Object source, Object dest) {
-			// TODO Auto-generated method stub
-			
+			FlowSet
+            sourceSet = (FlowSet) source,
+            destSet = (FlowSet) dest;
+
+			sourceSet.copy(destSet);			
 		}
 
 	}
