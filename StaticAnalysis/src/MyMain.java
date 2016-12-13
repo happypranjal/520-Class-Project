@@ -24,6 +24,7 @@ import soot.G;
 import soot.PackManager;
 import soot.Transform;
 import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 public class MyMain {
@@ -73,13 +74,17 @@ public class MyMain {
 		@Override
 		protected void merge(Object in1, Object in2, Object out) {
 			// TODO Auto-generated method stub
-			
+
+			FlowSet inSet1 = (FlowSet) in1, inSet2 = (FlowSet) in2;
+			FlowSet outSet = (FlowSet) out;
+			inSet1.union(inSet2, outSet);
 		}
 
 		@Override
 		protected void copy(Object source, Object dest) {
 			// TODO Auto-generated method stub
-			
+			FlowSet srcSet = (FlowSet)source, destSet = (FlowSet)dest;
+			srcSet.copy(destSet);
 		}
 
 	}
