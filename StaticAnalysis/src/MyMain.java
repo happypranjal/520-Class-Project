@@ -17,16 +17,27 @@
  * Boston, MA 02111-1307, USA.
  */
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
+import soot.Local;
 import soot.PackManager;
 import soot.Transform;
 import soot.Unit;
+import soot.ValueBox;
+import soot.jimple.BinopExpr;
+import soot.jimple.ConditionExpr;
+import soot.jimple.EqExpr;
+import soot.jimple.Expr;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.annotation.logic.Loop;
 import soot.toolkits.graph.Block;
+import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.ExceptionalBlockGraph;
+import soot.toolkits.graph.LoopNestTree;
 import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.FlowSet;
@@ -39,10 +50,37 @@ public class MyMain {
 				new Transform("jtp.myTransform", new BodyTransformer() {
 
 					protected void internalTransform(Body body, String phase, Map options) {
-						new MyAnalysis(new ExceptionalUnitGraph(body));
+						MyAnalysis analysis = new MyAnalysis(new BriefUnitGraph(body));
+						LoopNestTree loopNest = new LoopNestTree(body);
+						for(Loop loop: loopNest){
+							Stmt st = loop.getHead();
+							for(Stmt stm : loop.getLoopStatements()) {
+								FlowSet fsb = (FlowSet) analysis.getFlowBefore(stm);
+								FlowSet fsa = (FlowSet) analysis.getFlowAfter(stm);
+								FlowSet fsc = (FlowSet) analysis.getFlowAfter(stm);
+								fsa.difference(fsb, fsc);
+								if(stm instanceof ConditionExpr && st.toString().equals("nop")) {
+									st = stm;
+								}
+								//G.v().out.println(stm.toString());
+								if(!fsc.isEmpty() && fsb.size() > fsa.size()) {
+									G.v().out.println(stm.toString());
+									G.v().out.println(st);
+									Iterator it = stm.getUseAndDefBoxes().iterator();
+									while(it.hasNext()) {
+										//G.v().out.println(it.next());
+									}
+									
+			
+									
+								}
+							}
+						}
+						
 						// use G.v().out instead of System.out so that Soot can
 						// redirect this output to the Eclipse console
 						G.v().out.println(body.getMethod());
+						//G.v().out.println("Hello");
 					}
 					
 				}));
@@ -55,8 +93,8 @@ public class MyMain {
 		FlowSet emptySet = new ArraySparseSet();
 	    Map<Unit, FlowSet> unitToGenerateSet;
 	    
-		public MyAnalysis(ExceptionalUnitGraph exceptionalUnitGraph) {
-			super(exceptionalUnitGraph);
+		public MyAnalysis(BriefUnitGraph briefUnitGraph) {
+			super(briefUnitGraph);
 	        unitToGenerateSet = new HashMap<Unit, FlowSet>();
 			doAnalysis();
 		}
@@ -66,8 +104,51 @@ public class MyMain {
 			FlowSet
             in = (FlowSet) inValue,
             out = (FlowSet) outValue;
-			in.union(unitToGenerateSet.get(unit), out);			
+			Unit u = (Unit) unit; 
+			kill(in, u, out);
+			gen(out, u);
 		}
+		
+		protected void kill(FlowSet inSet, Unit u, FlowSet outSet) {
+			FlowSet kills = (FlowSet)emptySet.clone();
+			Iterator defIt = u.getDefBoxes().iterator();
+			while (defIt.hasNext()) {
+				ValueBox defBox = (ValueBox)defIt.next();
+
+				if (defBox.getValue() instanceof Local) {
+					Iterator inIt = inSet.iterator();
+					while (inIt.hasNext()) {
+						Expr e = (Expr)inIt.next();
+						Iterator eIt = e.getUseBoxes().iterator();
+						while (eIt.hasNext()) {
+							ValueBox useBox = (ValueBox)eIt.next();
+							if (useBox.getValue() instanceof Local &&
+									useBox.getValue().equivTo(defBox.getValue()))
+								kills.add(e);
+						}
+					}
+				}
+			}
+			inSet.difference(kills, outSet);
+		}
+		
+		/**
+		 * Performs gens by iterating over the units use-boxes.
+		 * If the value of a use-box is a binopExp then we add
+		 * it to the outSet.
+		 * @param outSet the set flowing out of the unit
+		 * @param u the unit being flown through
+		 */
+		protected void gen(FlowSet outSet, Unit u) {
+			Iterator useIt = u.getUseBoxes().iterator();
+			while (useIt.hasNext()) {
+				ValueBox useBox = (ValueBox)useIt.next();
+				
+				if (useBox.getValue() instanceof Expr)
+					outSet.add(useBox.getValue());
+			}
+		}
+	
 
 		@Override
 		protected Object newInitialFlow() {
