@@ -3,58 +3,61 @@ public class TestLoop extends java.lang.Object
 
     public void foo()
     {
-        TestLoop this;
-        int j, i, temp$1, temp$2, temp$3, temp$4;
-        java.io.PrintStream temp$0;
+        TestLoop r0;
+        byte b0;
+        int i1, i2, i3, i4, i5, i6;
+        java.io.PrintStream r1, r2;
 
-        this := @this: TestLoop;
-        j = 0;
+        r0 := @this: TestLoop;
+        b0 = 1;
+        if b0 < 4 goto label0;
+
+        goto label1;
 
      label0:
-        nop;
-        if j < 2 goto label1;
-
-        goto label5;
+        r1 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke r1.<java.io.PrintStream: void println(int)>(b0);
 
      label1:
-        nop;
-        i = 0;
+        i1 = 0;
 
      label2:
-        nop;
-        if i < 5 goto label3;
+        if i1 < 2 goto label3;
 
-        goto label4;
+        goto label7;
 
      label3:
-        nop;
-        temp$0 = <java.lang.System: java.io.PrintStream out>;
-        virtualinvoke temp$0.<java.io.PrintStream: void println(int)>(i);
-        nop;
-        temp$1 = i;
-        temp$2 = temp$1 + 1;
-        i = temp$2;
-        goto label2;
+        i2 = 0;
 
      label4:
-        nop;
-        nop;
-        temp$3 = j;
-        temp$4 = temp$3 + 1;
-        j = temp$4;
-        goto label0;
+        if i2 < 5 goto label5;
+
+        goto label6;
 
      label5:
-        nop;
+        r2 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke r2.<java.io.PrintStream: void println(int)>(i2);
+        i3 = i2;
+        i4 = i3 + 1;
+        i2 = i4;
+        goto label4;
+
+     label6:
+        i5 = i1;
+        i6 = i5 + 1;
+        i1 = i6;
+        goto label2;
+
+     label7:
         return;
     }
 
     public void <init>()
     {
-        TestLoop this;
+        TestLoop r0;
 
-        this := @this: TestLoop;
-        specialinvoke this.<java.lang.Object: void <init>()>();
+        r0 := @this: TestLoop;
+        specialinvoke r0.<java.lang.Object: void <init>()>();
         return;
     }
 }

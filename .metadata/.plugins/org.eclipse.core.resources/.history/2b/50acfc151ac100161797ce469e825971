@@ -33,13 +33,13 @@ public class StaticAnalysis {
             }
         }
 
-        System.out.println("**** Jimple Code ****");
+        System.out.println("**** Jimple Body ****");
         System.out.println(body);
         System.out.println();
 
         LoopNestTree loopNestTree = new LoopNestTree(body);
         
-        System.out.println("**** Condition Statements Found ****");
+        System.out.println("**** Conditions ****");
         ExceptionalUnitGraph unitGraph = new ExceptionalUnitGraph(body);
         //Get All the units
         for (Unit unit : body.getUnits()) {
@@ -61,11 +61,9 @@ public class StaticAnalysis {
                 			if(!blockStmt.getDefBoxes().isEmpty()){
                 	   			//System.out.println(blockStmt);
                     			//System.out.println(blockStmt.getDefBoxes());
-                				//For Every variable in the statements inside the loop block check if any changed variables in the statement are there in the loop condition 
                     			for(ValueBox loopBox : blockStmt.getDefBoxes()){
                         			for(Object conditionBox : unit.getUseAndDefBoxes()){
                         				if(conditionBox instanceof ImmediateBox){
-                        					//If a variable is found that is a loop variable
                         					if(((ImmediateBox) conditionBox).getValue().equals(loopBox.getValue())){
                         						System.out.println("The variable " + loopBox.getValue()+ " is a loop variable");
                                         		System.out.println();
@@ -77,34 +75,15 @@ public class StaticAnalysis {
                 		}
                 	}
                 }
-                //If No loop is found check the variable in the conditional statement for global dependency
                 if(!isLoop){
                 	for(Object conditionBox : unit.getUseAndDefBoxes()){
         				if(conditionBox instanceof ImmediateBox){
-        					//Ignore constants
-        					if(!isNumeric(((ImmediateBox) conditionBox).getValue().toString())){
-        						//If the variables start with $ according to Jimple api they are global variables
-        						if(((ImmediateBox) conditionBox).getValue().toString().charAt(0) == '$'){
-            						System.out.println("The variable " + ((ImmediateBox) conditionBox).getValue() + " is a Global Variable");
-                            		System.out.println();
-        						}else{
-            						System.out.println("The variable " + ((ImmediateBox) conditionBox).getValue() + " is a Local Variable");
-                            		System.out.println();
-        						}
-        					}
+        					System.out.println(((ImmediateBox) conditionBox).getValue());
+        					
         				}
         			}
                 }
         	}
         }
-    }
-    
-    static boolean isNumeric(String str) {
-        try {
-            double d = Double.parseDouble(str);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
     }
 }
