@@ -30,8 +30,12 @@ import soot.Unit;
 import soot.ValueBox;
 import soot.jimple.BinopExpr;
 import soot.jimple.ConditionExpr;
+import soot.jimple.EqExpr;
+import soot.jimple.Expr;
+import soot.jimple.Stmt;
 import soot.jimple.toolkits.annotation.logic.Loop;
 import soot.toolkits.graph.Block;
+import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.ExceptionalBlockGraph;
 import soot.toolkits.graph.LoopNestTree;
 import soot.toolkits.scalar.ArraySparseSet;
@@ -46,14 +50,37 @@ public class MyMain {
 				new Transform("jtp.myTransform", new BodyTransformer() {
 
 					protected void internalTransform(Body body, String phase, Map options) {
-						MyAnalysis analysis = new MyAnalysis(new ExceptionalUnitGraph(body));
+						MyAnalysis analysis = new MyAnalysis(new BriefUnitGraph(body));
 						LoopNestTree loopNest = new LoopNestTree(body);
 						for(Loop loop: loopNest){
-							loop.getHead().getArrayRefBox().getValue().equals()
+							Stmt st = loop.getHead();
+							for(Stmt stm : loop.getLoopStatements()) {
+								FlowSet fsb = (FlowSet) analysis.getFlowBefore(stm);
+								FlowSet fsa = (FlowSet) analysis.getFlowAfter(stm);
+								FlowSet fsc = (FlowSet) analysis.getFlowAfter(stm);
+								fsa.difference(fsb, fsc);
+								if(stm instanceof ConditionExpr && st.toString().equals("nop")) {
+									st = stm;
+								}
+								//G.v().out.println(stm.toString());
+								if(!fsc.isEmpty() && fsb.size() > fsa.size()) {
+									G.v().out.println(stm.toString());
+									G.v().out.println(st);
+									Iterator it = stm.getUseAndDefBoxes().iterator();
+									while(it.hasNext()) {
+										//G.v().out.println(it.next());
+									}
+									
+			
+									
+								}
+							}
 						}
+						
 						// use G.v().out instead of System.out so that Soot can
 						// redirect this output to the Eclipse console
 						G.v().out.println(body.getMethod());
+						//G.v().out.println("Hello");
 					}
 					
 				}));
@@ -66,8 +93,8 @@ public class MyMain {
 		FlowSet emptySet = new ArraySparseSet();
 	    Map<Unit, FlowSet> unitToGenerateSet;
 	    
-		public MyAnalysis(ExceptionalUnitGraph exceptionalUnitGraph) {
-			super(exceptionalUnitGraph);
+		public MyAnalysis(BriefUnitGraph briefUnitGraph) {
+			super(briefUnitGraph);
 	        unitToGenerateSet = new HashMap<Unit, FlowSet>();
 			doAnalysis();
 		}
@@ -91,7 +118,7 @@ public class MyMain {
 				if (defBox.getValue() instanceof Local) {
 					Iterator inIt = inSet.iterator();
 					while (inIt.hasNext()) {
-						ConditionExpr e = (ConditionExpr)inIt.next();
+						Expr e = (Expr)inIt.next();
 						Iterator eIt = e.getUseBoxes().iterator();
 						while (eIt.hasNext()) {
 							ValueBox useBox = (ValueBox)eIt.next();
@@ -117,7 +144,7 @@ public class MyMain {
 			while (useIt.hasNext()) {
 				ValueBox useBox = (ValueBox)useIt.next();
 				
-				if (useBox.getValue() instanceof ConditionExpr)
+				if (useBox.getValue() instanceof Expr)
 					outSet.add(useBox.getValue());
 			}
 		}
