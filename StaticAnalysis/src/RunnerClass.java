@@ -80,21 +80,37 @@ public class RunnerClass {
 		// redirect this output to the Eclipse console
 		G.v().out.println(body.getMethod());
 
-		for(Unit unit : graph){
+		for(Unit unit : graph){ //Get all the units
 			boolean isLoop = false;
 			FlowSet fsb = (FlowSet) analysis.getFlowBefore(unit);
 			FlowSet fsa = (FlowSet) analysis.getFlowAfter(unit);
 			FlowSet fsc = (FlowSet) analysis.getFlowAfter(unit);
 			fsa.difference(fsb, fsc);
-			if(!fsc.isEmpty()){
-				for(Object statementBox : unit.getUseAndDefBoxes()){
-					if(statementBox instanceof ConditionExprBox){
-						G.v().out.println("Condition: " + unit);
-						LoopNestTree loopNest = new LoopNestTree(body);
-						for(Loop loop: loopNest){
-							if(loop.getLoopStatements().contains(unit) && !isLoop){
+			if(!fsc.isEmpty()){ 
+				//Check if flow set after is not Empty
+				
+				for(Object statementBox : unit.getUseAndDefBoxes()){ 
+					//Iterate through unit boxes
+					
+					if(statementBox instanceof ConditionExprBox){ 
+						//If StatementBox is an instance of Express Box
+						
+						G.v().out.println("Condition: " + unit); 
+						//Print out the condition
+						
+						LoopNestTree loopNest = new LoopNestTree(body); 
+						//Create a new Loop Nest Tree
+						
+						for(Loop loop: loopNest){ 
+							//Iterate through the loop
+							
+							if(loop.getLoopStatements().contains(unit) && !isLoop){ 
+								//Check if the condition is a loop
+								
 								System.out.println("This Condition is a loop");
-								isLoop = true;
+								isLoop = true; //This is a loop
+								
+								//For Every variable in the statements inside the loop block check if any changed variables in the statement are there in the loop condition 
 								for(Stmt stm : loop.getLoopStatements()) {
 									FlowSet fsb2 = (FlowSet) analysis.getFlowBefore(stm);
 									FlowSet fsa2 = (FlowSet) analysis.getFlowAfter(stm);
@@ -142,6 +158,12 @@ public class RunnerClass {
 
 	}
 
+	/**
+	 *  This method checks if the value in a string is a boolean
+	 *  
+	 * @param str
+	 * @return boolean
+	 */
 	static boolean isNumeric(String str) {
 		try {
 			double d = Double.parseDouble(str);
