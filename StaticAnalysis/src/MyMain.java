@@ -51,6 +51,8 @@ public class MyMain {
 
 					protected void internalTransform(Body body, String phase, Map options) {
 						MyAnalysis analysis = new MyAnalysis(new BriefUnitGraph(body)); //run analysis, get graph/analysis object and store for comparison later in code
+						//using a brief analysis graph because we do not care about exceptions. We simply care about the state of variables and the conditionals those
+						//variables make up
 						LoopNestTree loopNest = new LoopNestTree(body); //retrieve loops from the jimple
 						for(Loop loop: loopNest){ //check each loop in out code, for each loop, check all the statements inside of it and how they manipulate (if they do)
 							//the values of the loop head
@@ -96,9 +98,9 @@ public class MyMain {
 	    Map<Unit, FlowSet> unitToGenerateSet;
 	    
 		public MyAnalysis(BriefUnitGraph briefUnitGraph) {
-			super(briefUnitGraph);
+			super(briefUnitGraph); 
 	        unitToGenerateSet = new HashMap<Unit, FlowSet>();
-			doAnalysis();
+			doAnalysis(); //Soot's doAnalysis()
 		}
 
 		@Override
@@ -107,8 +109,8 @@ public class MyMain {
             in = (FlowSet) inValue,
             out = (FlowSet) outValue;
 			Unit u = (Unit) unit; 
-			kill(in, u, out);
-			gen(out, u);
+			kill(in, u, out); //kill anything that we do not want
+			gen(out, u); //create new units in our set to check with kill, later
 		}
 		
 		protected void kill(FlowSet inSet, Unit u, FlowSet outSet) {
