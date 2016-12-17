@@ -50,29 +50,31 @@ public class MyMain {
 				new Transform("jtp.myTransform", new BodyTransformer() {
 
 					protected void internalTransform(Body body, String phase, Map options) {
-						MyAnalysis analysis = new MyAnalysis(new BriefUnitGraph(body));
-						LoopNestTree loopNest = new LoopNestTree(body);
-						for(Loop loop: loopNest){
-							Stmt st = loop.getHead();
-							for(Stmt stm : loop.getLoopStatements()) {
-								FlowSet fsb = (FlowSet) analysis.getFlowBefore(stm);
-								FlowSet fsa = (FlowSet) analysis.getFlowAfter(stm);
-								FlowSet fsc = (FlowSet) analysis.getFlowAfter(stm);
-								fsa.difference(fsb, fsc);
-								if(stm instanceof ConditionExpr && st.toString().equals("nop")) {
-									st = stm;
+						MyAnalysis analysis = new MyAnalysis(new BriefUnitGraph(body)); //run analysis, get graph/analysis object and store for comparison later in code
+						LoopNestTree loopNest = new LoopNestTree(body); //retrieve loops from the jimple
+						for(Loop loop: loopNest){ //check each loop in out code, for each loop, check all the statements inside of it and how they manipulate (if they do)
+							//the values of the loop head
+							Stmt st = loop.getHead(); //first statement in the loop, e.g. if(i<5)
+							for(Stmt stm : loop.getLoopStatements()) { //start with loop head
+								FlowSet fsb = (FlowSet) analysis.getFlowBefore(stm); //flowset before unit
+								FlowSet fsa = (FlowSet) analysis.getFlowAfter(stm); //flowset after unit (cast to flowset)
+								FlowSet fsc = (FlowSet) analysis.getFlowAfter(stm); //initializing a flow set to store diff. contents do not matter
+								fsa.difference(fsb, fsc); //diff the two flowsets, store resulting set in fsc
+								if(stm instanceof ConditionExpr && st.toString().equals("nop")) { //we don't want nop statements as they are no action. We want any conditional
+								//expression, e.g. 5 < 4, true || false, etc.. 
+									st = stm; //store the statement value to compare after running all the units in the loop
 								}
 								//G.v().out.println(stm.toString());
 								if(!fsc.isEmpty() && fsb.size() > fsa.size()) {
-									G.v().out.println(stm.toString());
-									G.v().out.println(st);
-									Iterator it = stm.getUseAndDefBoxes().iterator();
-									while(it.hasNext()) {
-										//G.v().out.println(it.next());
+									G.v().out.println(stm.toString()); //resulting statement that splits
+									Iterator it = stm.getUseAndDefBoxes().iterator(); //iterator of all the use and def boxes in the loop. Allows us
+									//to check every statement individually
+									while(it.hasNext()) { //loop through the statements and simply executing the units
+										//G.v().out.println(it.next()); //print out the next statement in the loop for debugging
 									}
-									
-			
-									
+									//once entire loop has run, compare the values of st variables with the new st variables
+									//if the variable values have changed, then we found a loop where the variables depend on
+									//computations inside the loop body, e.g. i++
 								}
 							}
 						}
@@ -110,6 +112,7 @@ public class MyMain {
 		}
 		
 		protected void kill(FlowSet inSet, Unit u, FlowSet outSet) {
+			//standard kill for the start, the difference is when we actually kill a unit
 			FlowSet kills = (FlowSet)emptySet.clone();
 			Iterator defIt = u.getDefBoxes().iterator();
 			while (defIt.hasNext()) {
@@ -118,18 +121,18 @@ public class MyMain {
 				if (defBox.getValue() instanceof Local) {
 					Iterator inIt = inSet.iterator();
 					while (inIt.hasNext()) {
-						Expr e = (Expr)inIt.next();
+						Expr e = (Expr)inIt.next(); //Any kind of expression, here. =, +, ||, &&, %, etc.
 						Iterator eIt = e.getUseBoxes().iterator();
 						while (eIt.hasNext()) {
 							ValueBox useBox = (ValueBox)eIt.next();
 							if (useBox.getValue() instanceof Local &&
-									useBox.getValue().equivTo(defBox.getValue()))
+									useBox.getValue().equivTo(defBox.getValue())) //we don't care about local vars 
 								kills.add(e);
 						}
 					}
 				}
 			}
-			inSet.difference(kills, outSet);
+			inSet.difference(kills, outSet); //get rid of all killed units
 		}
 		
 		/**
@@ -144,7 +147,7 @@ public class MyMain {
 			while (useIt.hasNext()) {
 				ValueBox useBox = (ValueBox)useIt.next();
 				
-				if (useBox.getValue() instanceof Expr)
+				if (useBox.getValue() instanceof Expr) //Any kind of expression, here. =, +, ||, &&, %, etc. add to the outset, and check with kill, later
 					outSet.add(useBox.getValue());
 			}
 		}
@@ -162,16 +165,19 @@ public class MyMain {
 
 		@Override
 		protected void merge(Object in1, Object in2, Object out) {
+			//cast to flowsets to work with more easily
 			FlowSet
             inSet1 = (FlowSet) in1,
             inSet2 = (FlowSet) in2,
             outSet = (FlowSet) out;
 
-			inSet1.intersection(inSet2, outSet);			
+			inSet1.intersection(inSet2, outSet); //take the intersection of of in2 with out to in1. Only want intersection because union
+			//gives	
 		}
 
 		@Override
 		protected void copy(Object source, Object dest) {
+			//copy flowset to the output
 			FlowSet
             sourceSet = (FlowSet) source,
             destSet = (FlowSet) dest;
