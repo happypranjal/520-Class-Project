@@ -19,7 +19,6 @@ public class Analysis extends ForwardFlowAnalysis  {
 			doAnalysis();
 		}
 
-		//Flow through the unit graph
 		@Override
 		protected void flowThrough(Object inValue, Object unit, Object outValue) {
 			FlowSet
@@ -30,7 +29,6 @@ public class Analysis extends ForwardFlowAnalysis  {
 			gen(out, u);
 		}
 
-		//in the flow remove any expression that does not exist enymore
 		protected void kill(FlowSet inSet, Unit u, FlowSet outSet) {
 			FlowSet kills = (FlowSet)emptySet.clone();
 			Iterator defIt = u.getDefBoxes().iterator();
@@ -72,19 +70,16 @@ public class Analysis extends ForwardFlowAnalysis  {
 		}
 
 
-		//Default methods for soot api
 		@Override
 		protected Object newInitialFlow() {
 			return emptySet.clone();
 		}
-		
-		//Default methods for soot api
+
 		@Override
 		protected Object entryInitialFlow() {
 			return emptySet.clone();
 		}
 
-		//Default methods for soot api
 		@Override
 		protected void merge(Object in1, Object in2, Object out) {
 			FlowSet

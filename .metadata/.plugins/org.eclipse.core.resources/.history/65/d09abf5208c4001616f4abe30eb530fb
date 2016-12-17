@@ -93,35 +93,33 @@ public class RunnerClass {
 			fsa.difference(fsb, fsc);
 			//Check if flow set difference is not Empty meaning an expression was found in this unit
 			if(!fsc.isEmpty()){ 
-				
+				//get all variable in the expression
 				for(Object statementBox : unit.getUseAndDefBoxes()){ 
-					// If there is a conditional in the unit print it 
+					
 					if(statementBox instanceof ConditionExprBox){ 
 						
 						G.v().out.println("Condition: " + unit); 
 						//Print out the condition
 						
-						//Use LoopNestTree to see if the statement is a loop. It does so by checking back edges
 						LoopNestTree loopNest = new LoopNestTree(body); 
+						//Create a new Loop Nest Tree
 						
 						for(Loop loop: loopNest){ 
-							//Iterate through all the statements in the loop
+							//Iterate through the loop
 							
 							if(loop.getLoopStatements().contains(unit) && !isLoop){ 
-								//Check if the statement is a loop
+								//Check if the condition is a loop
 								
 								System.out.println("This Condition is a loop");
 								isLoop = true; //This is a loop
 								
 								//For Every variable in the statements inside the loop block check if any changed variables in the statement are there in the loop condition 
 								for(Stmt stm : loop.getLoopStatements()) {
-									//if there is difference in the inset and outset it is a conditional
 									FlowSet fsb2 = (FlowSet) analysis.getFlowBefore(stm);
 									FlowSet fsa2 = (FlowSet) analysis.getFlowAfter(stm);
 									FlowSet fsc2 = (FlowSet) analysis.getFlowAfter(stm);
 									fsa2.difference(fsb2, fsc2);
 									if(!fsc2.isEmpty() && !stm.getDefBoxes().isEmpty()){
-										// Check if the same variable(ImmediateBox) is in both the loop conditional and this statement
 										for(ValueBox condVarBox : stm.getDefBoxes()){
 											for(Object unitVarBox : unit.getUseAndDefBoxes()){
 												if(unitVarBox instanceof ImmediateBox){
@@ -148,7 +146,6 @@ public class RunnerClass {
 											System.out.println("The variable " + ((ImmediateBox) unitVarBox).getValue() + " is a Global Variable");
 											System.out.println();
 										}else{
-											//Else it is a local variable
 											System.out.println("The variable " + ((ImmediateBox) unitVarBox).getValue() + " is a Local Variable");
 											System.out.println();
 										}
