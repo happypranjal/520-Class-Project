@@ -9,7 +9,7 @@ import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
-//Implementation of ForwardFlowAnalysis that allows us to calculate insets and outsets for every unit given a unit graph.
+
 public class Analysis extends ForwardFlowAnalysis  {
 
 		FlowSet emptySet = new ArraySparseSet();

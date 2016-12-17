@@ -51,8 +51,6 @@ import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
-
-//Runs the algorithm and performs the static analysis
 public class RunnerClass {
 
 	public static void main(String[] args) {

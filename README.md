@@ -18,7 +18,14 @@ Install soot Eclipse Plugin by following instructions at https://github.com/Sabl
 
 Set the project directory as workspace in Eclipse and import the projects into Eclipse.
 
-Put classes to analyse in TestProject.
+To Run:
+Go to StaticAnalysis/src/RunnerClass.java
+Add your Test Class into the same directory.
+Update the name of the Test Class that you want to test in RunnerClass.java 
+	SootClass sootClass = Scene.v().loadClassAndSupport("<Insert Test Class Name>");
+Update name of the method you want to analyse in RunnerClass.java
+	if (method.getName().equals("<Insert Method Name Here>")) {
+Save RunnerClass.java and “Run” it on Eclipse
+ 
 
-To run analysis, right click on the class to test and go to soot -> run soot -> check interactive mode, via shimple, output file shimple
 
