@@ -54,10 +54,9 @@ import soot.toolkits.scalar.ForwardFlowAnalysis;
 public class RunnerClass {
 
 	public static void main(String[] args) {
-		//Load Class to be tested
 		SootClass sootClass = Scene.v().loadClassAndSupport("TestLoop");
 		sootClass.setApplicationClass();
-		//Set method to be analysed and convert into optimized jimple 
+
 		Body body = null;
 		for (SootMethod method : sootClass.getMethods()) {
 			if (method.getName().equals("foo")) {
@@ -67,36 +66,34 @@ public class RunnerClass {
 				}
 			}
 		}
-		//Print Jimple code
+
 		System.out.println("**** Jimple Code ****");
 		System.out.println(body);
 		System.out.println();
 
 
-		//Convert Jimple into a biefUnitGraph to gracefully remove exceptions.
+
 		UnitGraph graph = new BriefUnitGraph(body);
-		//Create an analysis object and run to create insets and outsets
 		Analysis analysis = new Analysis(graph);
 
 		// use G.v().out instead of System.out so that Soot can
 		// redirect this output to the Eclipse console
 		G.v().out.println(body.getMethod());
 
-		//Go through all units of the graph to check for expressions
-		for(Unit unit : graph){
-			//Set isLoop
+		for(Unit unit : graph){ //Get all the units
 			boolean isLoop = false;
-			//Get the insets and outsets and calculate difference
 			FlowSet fsb = (FlowSet) analysis.getFlowBefore(unit);
 			FlowSet fsa = (FlowSet) analysis.getFlowAfter(unit);
 			FlowSet fsc = (FlowSet) analysis.getFlowAfter(unit);
 			fsa.difference(fsb, fsc);
-			//Check if flow set difference is not Empty meaning an expression was found in this unit
 			if(!fsc.isEmpty()){ 
-				//get all variable in the expression
+				//Check if flow set after is not Empty
+				
 				for(Object statementBox : unit.getUseAndDefBoxes()){ 
+					//Iterate through unit boxes
 					
 					if(statementBox instanceof ConditionExprBox){ 
+						//If StatementBox is an instance of Express Box
 						
 						G.v().out.println("Condition: " + unit); 
 						//Print out the condition
