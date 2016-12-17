@@ -18,6 +18,7 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="232" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="ca.mcgill.sable.soot.editors.JimpleEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="ca.mcgill.sable.soot.cfg.CFGEditor" itemType="typePlaceholder" x="152" y="30"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
@@ -30,18 +31,13 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MyMain.java" partName="MyMain.java" path="/home/rohan/520-Class-Project/StaticAnalysis/src/MyMain.java" title="MyMain.java" tooltip="StaticAnalysis/src/MyMain.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/StaticAnalysis/src/MyMain.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2483" selectionTopPixel="397"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StaticAnalysis.java" partName="StaticAnalysis.java" path="/home/rohan/520-Class-Project/loopproject/src/StaticAnalysis.java" title="StaticAnalysis.java" tooltip="loopproject/src/StaticAnalysis.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/loopproject/src/StaticAnalysis.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1950" selectionTopPixel="665"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RunnerClass.java" partName="RunnerClass.java" path="/home/rohan/520-Class-Project/StaticAnalysis/src/RunnerClass.java" title="RunnerClass.java" tooltip="StaticAnalysis/src/RunnerClass.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/StaticAnalysis/src/RunnerClass.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="11" selectionOffset="1895" selectionTopPixel="45"/>
 </editor>
 </editors>
 <views>
@@ -137,7 +133,7 @@
 </folder>
 </info>
 <info part="org.eclipse.gef.ui.palette_view" ratio="0.25940594" ratioLeft="262" ratioRight="748" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottomRight" ratio="0.6596386" ratioLeft="438" ratioRight="226" relationship="4" relative="org.eclipse.gef.ui.palette_view">
+<info folder="true" part="bottomRight" ratio="0.50817996" ratioLeft="497" ratioRight="481" relationship="4" relative="org.eclipse.gef.ui.palette_view">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="ca.mcgill.sable.soot.ui.analysiskeyview.view" label="Analysis Keys"/>
@@ -174,55 +170,12 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/StaticAnalysis/src/MyMain.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/loopproject/src/StaticAnalysis.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestProject/src/TestClass2.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/loopproject/src/StaticAnalysis.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="ca.mcgill.sable.soot.editors.JimpleEditor" path="/TestProject/sootOutput/TestClass2.jimple"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/StaticAnalysis/src/TestLoop.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/StaticAnalysis/src/main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/StaticAnalysis/src/RunnerClass.java"/>
 </editors>
-<item historyLabel="StaticAnalysis.java" index="1">
-<position/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="1905" y="0"/>
-</item>
-<item historyLabel="StaticAnalysis.java" index="1">
-<position/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="3911" y="0"/>
-</item>
-<item historyLabel="StaticAnalysis.java" index="1">
-<position/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="4168" y="0"/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="4168" y="0"/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="4168" y="0"/>
-</item>
-<item historyLabel="StaticAnalysis.java" index="1">
-<position/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="4168" y="0"/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="3705" y="0"/>
-</item>
-<item historyLabel="StaticAnalysis.java" index="1">
-<position/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="3705" y="0"/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="3856" y="17"/>
-</item>
-<item historyLabel="StaticAnalysis.java" index="1">
-<position/>
-</item>
-<item historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="3834" y="0"/>
-</item>
 <item historyLabel="StaticAnalysis.java" index="1">
 <position/>
 </item>
@@ -322,8 +275,56 @@
 <item historyLabel="StaticAnalysis.java" index="1">
 <position info="not_deleted" x="1950" y="0"/>
 </item>
-<item active="true" historyLabel="MyMain.java" index="0">
-<position info="not_deleted" x="2483" y="0"/>
+<item historyLabel="MyMain.java" index="0">
+<position/>
+</item>
+<item historyLabel="StaticAnalysis.java" index="3">
+<position/>
+</item>
+<item historyLabel="MyMain.java" index="0">
+<position info="not_deleted" x="1908" y="0"/>
+</item>
+<item historyLabel="TestClass2.jimple" index="4">
+<position/>
+</item>
+<item historyLabel="MyMain.java" index="0">
+<position info="not_deleted" x="3597" y="0"/>
+</item>
+<item historyLabel="TestLoop.java" index="5">
+<position/>
+</item>
+<item historyLabel="MyMain.java" index="0">
+<position info="not_deleted" x="3597" y="0"/>
+</item>
+<item historyLabel="StaticAnalysis.java" index="3">
+<position/>
+</item>
+<item historyLabel="MyMain.java" index="0">
+<position info="not_deleted" x="2008" y="0"/>
+</item>
+<item historyLabel="TestLoop.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestClass2.jimple" index="4">
+<position info="not_deleted" x="50" y="0"/>
+</item>
+<item historyLabel="MyMain.java" index="0">
+<position info="not_deleted" x="2271" y="0"/>
+</item>
+<item historyLabel="TestClass2.jimple" index="4">
+<position info="not_deleted" x="50" y="0"/>
+</item>
+<item historyLabel="TestLoop.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="StaticAnalysis.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="main.java" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="RunnerClass.java" index="7">
+<position info="not_deleted" x="1895" y="11"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -342,8 +343,17 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="main.java" tooltip="StaticAnalysis/src/main.java">
+<persistable path="/StaticAnalysis/src/main.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StaticAnalysis.java" tooltip="loopproject/src/StaticAnalysis.java">
 <persistable path="/loopproject/src/StaticAnalysis.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestLoop.java" tooltip="StaticAnalysis/src/TestLoop.java">
+<persistable path="/StaticAnalysis/src/TestLoop.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="ca.mcgill.sable.soot.editors.JimpleEditor" name="TestClass2.jimple" tooltip="TestProject/sootOutput/TestClass2.jimple">
+<persistable path="/TestProject/sootOutput/TestClass2.jimple"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestClass2.java" tooltip="TestProject/src/TestClass2.java">
 <persistable path="/TestProject/src/TestClass2.java"/>
