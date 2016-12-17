@@ -2737,3 +2737,17 @@ java.lang.RuntimeException: WARNING: Prevented recursive attempt to activate par
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
 	at org.eclipse.equinox.launcher.Main.main(Main.java:1414)
+!SESSION 2016-12-16 16:43:11.538 -----------------------------------------------
+eclipse.buildId=4.3.0.I20130605-2000
+java.version=1.7.0_121
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os linux -ws gtk -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.help.base 4 4 2016-12-16 16:49:25.259
+!MESSAGE Help documentation could not be indexed completely.
+!SUBENTRY 1 org.eclipse.help.base 4 4 2016-12-16 16:49:25.259
+!MESSAGE Help document /ca.mcgill.sable.soot.help/doc/ref/sootRefs.html cannot be opened.
+!SUBENTRY 1 org.eclipse.help.base 4 4 2016-12-16 16:49:25.259
+!MESSAGE Help document /ca.mcgill.sable.soot.help/doc/concepts/soot_attributes.html cannot be opened.
